@@ -1,0 +1,95 @@
+<style>
+.spacedrum {
+background: url('6-notes-evolution-spacedrum-bag.jpg');
+width:300px;
+height:300px;
+position:relative;
+}
+
+button {
+width: 20%;
+height: 20%;
+border-radius: 20px;
+opacity:0;
+}
+
+#Bb3V4 {
+position: absolute;
+top: 38%;
+left: 42%;
+}
+
+#C4V4 {
+position: absolute;
+bottom: 19%;
+left: 18%;
+}
+
+#D4V4 {
+position: absolute;
+bottom: 16%;
+right: 17%;
+}
+
+#F4V4 {
+position: absolute;
+top: 24%;
+left: 13%;
+}
+
+#G4V4 {
+position: absolute;
+top: 27%;
+right: 8%;
+}
+
+#Bb4V4 {
+position: absolute;
+top: 9%;
+right: 38%;
+}
+
+
+
+
+</style>
+
+<body>
+	<div class="spacedrum">
+		<button id="C4V4"></button>
+		<button id="Bb3V4"></button>
+		<button id="D4V4"></button>
+		<button id="F4V4"></button>
+		<button id="G4V4"></button>
+		<button id="Bb4V4"></button>
+	</div>
+</body>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+SpaceDrum = {
+	context: new webkitAudioContext()
+};
+SpaceDrum.playSound = function(sound) {
+	request = new XMLHttpRequest();
+
+	request.open("get", "6notes"+sound+".mp3");
+	request.responseType = 'arraybuffer';
+	context = this.context;
+	request.onload = function() {
+		context.decodeAudioData(request.response, function(buffer) {
+		    var source = context.createBufferSource();
+		    source.buffer = buffer;
+		    source.connect(context.destination);
+		    source.start(0);
+		})
+	};
+	request.send();
+
+}
+
+$('button').mouseenter(function(){
+	SpaceDrum.playSound($(this).attr('id'));
+
+});
+</script>
