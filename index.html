@@ -70,29 +70,61 @@ right: 38%;
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 <script type="text/javascript">
+
 SpaceDrum = {
-	context: new webkitAudioContext()
+	audioContext: new webkitAudioContext(),
+	notes: [],
+	sounds: {},
+	load: function() {
+		var that = this;
+		$.each($('button'), function(key,value){
+			that.notes.push( $(value).attr('id') );
+		});
+		this.loadSounds(this.audioContext);
+		$('button').mouseenter(function(){
+			SpaceDrum.playSound($(this).attr('id'));
+		});
+	},
+	loadSound: function (audioContext, key, url) {
+	    var request = new XMLHttpRequest(),
+	    	dfd = $.Deferred();
+	    request.open("get", url);
+	    request.responseType = "arraybuffer";
+	    request.onload = (function () {
+	      this.audioContext.decodeAudioData(request.response, (function (buffer) {
+	        this.sounds[key] = buffer;
+	        dfd.resolve();
+	      }).bind(this));
+	    }).bind(this);
+	    request.send();
+	    return dfd;
+	},
+	loadSounds: function (audioContext) {
+	    var dfds = [],
+	    	masterDfd = $.Deferred();
+	    for (var key in this.notes) {
+	    	var note = this.notes[key];
+	        dfds.push(
+	       	  this.loadSound(audioContext,
+			     note,
+			     '6notes'+note+'.mp3'
+		      )
+		    );
+	    }
+
+	    $.when.apply($, dfds).then(function () {
+	      masterDfd.resolve();
+	    });
+
+	    return masterDfd;
+	},
+	playSound: function(sound) {
+	    var source = this.audioContext.createBufferSource();
+	    source.buffer = this.sounds[sound];
+	    source.connect(this.audioContext.destination);
+	    source.start(0);
+	}
 };
-SpaceDrum.playSound = function(sound) {
-	request = new XMLHttpRequest();
 
-	request.open("get", "6notes"+sound+".mp3");
-	request.responseType = 'arraybuffer';
-	context = this.context;
-	request.onload = function() {
-		context.decodeAudioData(request.response, function(buffer) {
-		    var source = context.createBufferSource();
-		    source.buffer = buffer;
-		    source.connect(context.destination);
-		    source.start(0);
-		})
-	};
-	request.send();
-
-}
-
-$('button').mouseenter(function(){
-	SpaceDrum.playSound($(this).attr('id'));
-
-});
+SpaceDrum.load();
 </script>
