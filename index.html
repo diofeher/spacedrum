@@ -27,6 +27,13 @@ height:300px;
 margin:130px auto;
 }
 
+img.keyboard {
+	position:absolute;
+top: 13%;
+right: 30%;
+opacity:0.7;
+}
+
 button {
 width: 65px;
 height: 65px;
@@ -74,7 +81,8 @@ left: -12%;
 
 <body>
 	<h1>spacedrum!</h1>
-	<h2>hover the instrument to play</h2>
+	<h2>hover the instrument to play or</h2>
+	<img class="keyboard" src="keyboard.png"/>
 	<div class="spacedrum">
 		<button id="C4V4"></button>
 		<button id="Bb3V4"></button>
@@ -93,6 +101,14 @@ SpaceDrum = {
 	audioContext: new webkitAudioContext(),
 	notes: [],
 	sounds: {},
+	keyBindings: {
+		'87': 'C4V4',
+		'65': 'F4V4',
+		'83': 'G4V4',
+		'68': 'D4V4',
+		'90': 'Bb4V4',
+		'88': 'Bb3V4',
+	},
 	load: function() {
 		var that = this;
 		$.each($('button'), function(key,value){
@@ -102,6 +118,12 @@ SpaceDrum = {
 		$('button').mouseenter(function(){
 			SpaceDrum.playSound($(this).attr('id'));
 		});
+		document.onkeydown = function(e)  {
+			kc = e.keyCode;
+			if(kc in that.keyBindings) {
+				SpaceDrum.playSound( that.keyBindings[kc] );
+			}
+		}
 	},
 	loadSound: function (audioContext, key, url) {
 	    var request = new XMLHttpRequest(),
