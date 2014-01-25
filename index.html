@@ -47,18 +47,20 @@ height: 350px; display:none; margin:60px auto; }
 img.keyboard { position:absolute; top: 13%; right: 25%; opacity:0.75}
 
 button {
-width: 65px;
-height: 65px;
-border-radius: 20px;
+width: 60px;
+height: 60px;
+border-radius: 25px;
 cursor: pointer;
 position:absolute;
 opacity:0;
 }
 
+.spacedrum13 button { width: 55px; height: 55px; }
+
 .spacedrum13 button { width: 50px; height: 50px; }
 
 /* 6 NOTES */
-#Bb3V4 { top: 37%; right: 35%; }
+#Bb3V4 { top: 37%; right: 38%; }
 #C4V4 { bottom: 16%; left: 18%; }
 #D4V4 { left: 63%; top: 64%; }
 #F4V4 { top: 23%; left: 11%;}
@@ -198,6 +200,9 @@ SpaceDrum = {
 	    return masterDfd;
 	},
 	playSound: function(sound) {
+		var element = $('#'+sound);
+		element.css('opacity', '0.5');
+		element.animate({opacity: 0}, 'fast');
 	    var source = this.audioContext.createBufferSource();
 	    source.buffer = this.sounds[sound];
 	    source.connect(this.audioContext.destination);
@@ -289,10 +294,10 @@ $('.list-spacedrum13').click(function(){
 });
 </script>
 <script type="text/javascript">
-$.each($('button'), function(){
-	var $this = $(this);
-	$this.text( $this.attr('id') );
-})
+// $.each($('button'), function(){
+// 	var $this = $(this);
+// 	$this.text( $this.attr('id') );
+// })
 </script>
 <script type="text/javascript">
   var _gaq = _gaq || [];
