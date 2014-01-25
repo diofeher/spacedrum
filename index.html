@@ -1,6 +1,6 @@
 <style>
 body {
-	background:url(sunset_inverted_colour_triangle-wallpaper-1920x1080.jpg) no-repeat center center fixed; 
+	background:url(images/sunset_inverted_colour_triangle-wallpaper-1920x1080.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -10,21 +10,62 @@ h1, h2 {
 	margin:auto;
 	text-align:center;
 }
+
 h1 {
 color:white;
 text-shadow:#000 2px 2px;
 font-family:Georgia;
 font-size:4em;
 }
+
 h2 {
 color:#fff;
 text-shadow:#666 2px 0 1px;
 }
+
+h2.choose {
+left: 24px;
+position: absolute;
+}
+
 .spacedrum {
-background: url('6-notes-evolution-spacedrum-bag.png');
 width:300px;
 height:300px;
 margin:130px auto;
+}
+
+.spacedrum6 {
+background: url('images/6notes-play.png');
+}
+
+.spacedrum8 {
+background: url('images/8notes-play.png');
+}
+
+.spacedrum13 {
+background: url('images/13notes-play.png');
+}
+
+.select-drum {
+	float:left;
+}
+
+.list {
+	width:200px;
+	height:200px;
+	cursor:pointer;
+}
+
+.list-spacedrum6 {
+background: url('images/6notes.png');
+}
+
+.list-spacedrum8 {
+background: url('images/8notes.png');
+}
+
+.list-spacedrum13 {
+background: url('images/13notes.png');
 }
 
 img.keyboard {
@@ -38,52 +79,41 @@ button {
 width: 65px;
 height: 65px;
 border-radius: 20px;
-opacity:0;
 cursor: pointer;
+position:relative;
+/*opacity:0;*/
 }
 
-#Bb3V4 {
-position: relative;
-top: 38%;
-left: 19%;
-}
+/* 6 NOTES */
+#Bb3V4 { top: 38%; left: 19%; }
+#C4V4 { bottom: -62%; left: 18%; }
+#D4V4 { left: 16%; top: 64%; }
+#F4V4 { top: 8%; right: 26%; }
+#G4V4 { top: 2%; left: 71%; }
+#Bb4V4 { top: 3%; left: -12%; }
 
-#C4V4 {
-position: relative;
-bottom: -62%;
-left: 18%;
-}
-
-#D4V4 {
-position: relative;
-left: 16%;
-top: 64%;
-}
-
-#F4V4 {
-position: relative;
-top: 8%;
-right: 26%;
-}
-
-#G4V4 {
-position: relative;
-top: 2%;
-left: 71%;
-}
-
-#Bb4V4 {
-position: relative;
-top: 3%;
-left: -12%;
-}
+/* 8 NOTES */
+#V4A3 {}
+#V4B3 {}
+#V4C4 {}
+#V4D4 {}
+#V4E4 {}
+#V4F4 {}
+#V4G4 {}
+#V4A4 {}
 </style>
 
 <body>
+	<h2 class="choose">choose instrument</h2>
+	<ul class="select-drum">
+		<li class="list list-spacedrum6">6 notes</li>
+		<li class="list list-spacedrum8">8 notes</li>
+		<li class="list list-spacedrum13">13 notes</li>
+	</ul>
 	<h1>spacedrum!</h1>
 	<h2>hover the instrument to play or</h2>
 	<img class="keyboard" src="keyboard.png"/>
-	<div class="spacedrum">
+	<div class="spacedrum spacedrum6">
 		<button id="C4V4"></button>
 		<button id="Bb3V4"></button>
 		<button id="D4V4"></button>
@@ -91,24 +121,42 @@ left: -12%;
 		<button id="G4V4"></button>
 		<button id="Bb4V4"></button>
 	</div>
+
+	<div class="spacedrum spacedrum8">
+		<button id="V4A3"></button>
+		<button id="V4B3"></button>
+		<button id="V4C4"></button>
+		<button id="V4D4"></button>
+		<button id="V4E4"></button>
+		<button id="V4F4"></button>
+		<button id="V4G4"></button>
+		<button id="V4A4"></button>
+	</div>
+
+	<div class="spacedrum spacedrum13">
+		<button id="C4V4"></button>
+		<button id="Bb3V4"></button>
+		<button id="D4V4"></button>
+		<button id="F4V4"></button>
+		<button id="G4V4"></button>
+		<button id="Bb4V4"></button>
+		<button id="Bb3V4"></button>
+		<button id="Bb3V4"></button>
+		<button id="Bb3V4"></button>
+		<button id="Bb3V4"></button>
+		<button id="Bb3V4"></button>
+		<button id="Bb3V4"></button>
+	</div>
 	
 </body>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 <script type="text/javascript">
-
+AudioContext = window.AudioContext || window.webkitAudioContext;
 SpaceDrum = {
-	audioContext: new webkitAudioContext(),
+	audioContext: new AudioContext(),
 	notes: [],
 	sounds: {},
-	keyBindings: {
-		'87': 'C4V4',
-		'65': 'F4V4',
-		'83': 'G4V4',
-		'68': 'D4V4',
-		'90': 'Bb4V4',
-		'88': 'Bb3V4',
-	},
 	load: function() {
 		var that = this;
 		$.each($('button'), function(key,value){
@@ -124,6 +172,7 @@ SpaceDrum = {
 				SpaceDrum.playSound( that.keyBindings[kc] );
 			}
 		}
+		console.log('carregou tudo?');
 	},
 	loadSound: function (audioContext, key, url) {
 	    var request = new XMLHttpRequest(),
@@ -141,13 +190,14 @@ SpaceDrum = {
 	},
 	loadSounds: function (audioContext) {
 	    var dfds = [],
+	    	that = this,
 	    	masterDfd = $.Deferred();
 	    for (var key in this.notes) {
 	    	var note = this.notes[key];
 	        dfds.push(
 	       	  this.loadSound(audioContext,
 			     note,
-			     '6notes'+note+'.mp3'
+			     that.path+note+'.mp3'
 		      )
 		    );
 	    }
@@ -166,7 +216,20 @@ SpaceDrum = {
 	}
 };
 
-SpaceDrum.load();
+var SpaceDrum6 = $.extend(SpaceDrum);
+var SpaceDrum8 = $.extend(SpaceDrum);
+var SpaceDrum13 = $.extend(SpaceDrum);
+// 65: A, 87: W, 83: S, 88: X, 68: D, 90: Z
+SpaceDrum6.keyBindings = {
+		'87': 'C4V4',
+		'65': 'F4V4',
+		'83': 'G4V4',
+		'68': 'D4V4',
+		'90': 'Bb4V4',
+		'88': 'Bb3V4',
+}
+SpaceDrum6.path = 'sounds/6notes'
+SpaceDrum6.load();
 </script>
 <script type="text/javascript">
 
