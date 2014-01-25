@@ -60,12 +60,12 @@ opacity:0;
 .spacedrum13 button { width: 50px; height: 50px; }
 
 /* 6 NOTES */
-#Bb3V4 { top: 37%; right: 38%; }
-#C4V4 { bottom: 16%; left: 18%; }
-#D4V4 { left: 63%; top: 64%; }
+#Bb3V4 { top: 37%; left: 42%;}
+#C4V4 { top: 64%; left: 18%;}
+#D4V4 { top: 64%; left: 63%;}
 #F4V4 { top: 23%; left: 11%;}
-#G4V4 { top: 26%; left: 71%; }
-#Bb4V4 { top: 6%; left: 43%; }
+#G4V4 { top: 26%; left: 71%;}
+#Bb4V4 { top: 6%; left: 43%;}
 
 /* 8 NOTES */
 #V4A3 {left: 38%; top: 39%;}
@@ -91,6 +91,59 @@ opacity:0;
 #o11Bb4 {top: 34%; left: 50%;}
 #o12B4 {top: 47%; right: 19%;}
 #o13C5 {top: 48%; left: 34%;}
+
+#song-controls {
+opacity:1;
+position:absolute;
+right: 2%;
+top: 45%;
+}
+#song-controls button {
+	opacity:1;
+	display:inline;
+	position:static;
+	border-radius:0;
+	-webkit-border-radius:0;
+	width:40px;
+	height:40px;
+}
+
+#song-controls .circle {
+	display:block;
+	width:20px;
+	height:20px;
+	background:red;
+	border-radius: 10px;
+	margin:auto;
+}
+
+.recording {
+	-webkit-animation: heartbeat 0.5s linear infinite alternate;
+	animation: heartbeat 0.5s linear infinite alternate;
+}
+
+#song-controls .triangle {
+	width: 0; 
+	height: 0; 
+	border-top: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+	display:block;
+	border-left: 10px solid black;
+	margin:auto;
+}
+
+#song-controls textarea {
+	display:block;
+	width: 159px;
+height: 100px;
+}
+
+@-webkit-keyframes heartbeat {
+	0% {
+		/*-webkit-transform:rotate(0deg);*/
+		background:black;
+	}
+}
 </style>
 
 <body>
@@ -107,7 +160,7 @@ opacity:0;
 		<button id="C4V4"></button>
 		<button id="Bb3V4"></button>
 		<button id="D4V4"></button>
-		<button id="F4V4"></button>
+		<button id="F4V4"> </button>
 		<button id="G4V4"></button>
 		<button id="Bb4V4"></button>
 	</div>
@@ -138,9 +191,13 @@ opacity:0;
 		<button id="o12B4"></button>
 		<button id="o13C5"></button>
 	</div>
+	<div id="song-controls">
+		<button id="record"><span class="circle" title="Click to start recording. Click again to stop."></span></button>
+		<button id="play"><span class="triangle" title="Add text to input and then click in play."></span></button>
+		<textarea id="log" type="text"/>Click on circle to record/stop. Use this area to get your music log. To play just paste music here and click on play.</textarea>
+	</div>
 	<a href="https://github.com/diofeher/spacedrum"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 </body>
-
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 <script type="text/javascript">
 AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -148,6 +205,9 @@ SpaceDrum = {
 	audioContext: new AudioContext(),
 	sounds: {},
 	parent: null,
+	log: [],
+	recording: false,
+	start_time: null,
 	load: function() {
 		this.notes = [];
 		var that = this;
@@ -156,12 +216,42 @@ SpaceDrum = {
 		});
 		this.loadSounds(this.audioContext);
 		this.parent.find('button').mouseenter(function(){
-			SpaceDrum.playSound($(this).attr('id'));
+			that.playNote($(this).attr('id'));
 		});
+		$('#record').click(function(){
+			(function () {
+				if (that.recording == true) {
+					that.recording = false;
+					var log = JSON.stringify(that.log);
+					$('.circle').removeClass('recording');
+					$('#log').val(log);
+				}
+				else {
+					that.log = [];
+					that.recording = true;
+					console.log($('.circle'));
+					$('.circle').addClass('recording');
+					that.start_time = Date.now();
+				}
+			}).call();
+		});
+		$('#play').click(function(){
+			var log = $('#log').val();
+			var obj = new Function('return '+log)();
+			var dfd = new $.Deferred();
+			for (note in obj) {
+				(function () {
+					var sound = obj[note];
+					setTimeout(function(){
+						that.playNote(sound[0]);
+					}, sound[1]);
+				}).call();
+			};
+		})
 		document.onkeydown = function(e)  {
 			kc = e.keyCode;
 			if(kc in that.keyBindings) {
-				SpaceDrum.playSound( that.keyBindings[kc] );
+				that.playNote( that.keyBindings[kc] );
 			}
 		}
 	},
@@ -199,10 +289,17 @@ SpaceDrum = {
 
 	    return masterDfd;
 	},
-	playSound: function(sound) {
+	playNote: function(sound) {
 		var element = $('#'+sound);
 		element.css('opacity', '0.5');
+		if (this.recording) {
+			this.log.push([sound, Math.abs(Date.now()-this.start_time)]);
+		}
 		element.animate({opacity: 0}, 'fast');
+		this.playSound(sound);
+		
+	},
+	playSound: function(sound) {
 	    var source = this.audioContext.createBufferSource();
 	    source.buffer = this.sounds[sound];
 	    source.connect(this.audioContext.destination);
