@@ -172,7 +172,6 @@ SpaceDrum = {
 				SpaceDrum.playSound( that.keyBindings[kc] );
 			}
 		}
-		console.log('carregou tudo?');
 	},
 	loadSound: function (audioContext, key, url) {
 	    var request = new XMLHttpRequest(),
@@ -228,7 +227,9 @@ SpaceDrum6.keyBindings = {
 		'90': 'Bb4V4',
 		'88': 'Bb3V4',
 }
-SpaceDrum6.path = 'sounds/6notes'
+SpaceDrum6.path = 'sounds/6notes';
+SpaceDrum8.path = 'sounds/8notesDiato';
+SpaceDrum13.path = 'sounds/Chro';
 SpaceDrum6.load();
 </script>
 <script type="text/javascript">
