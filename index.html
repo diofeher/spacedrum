@@ -44,7 +44,7 @@ height: 350px; display:none; margin:60px auto; }
 .list-spacedrum6 { background: url('images/6notes.png'); }
 .list-spacedrum8 { background: url('images/8notes.png') no-repeat; height:90px; }
 .list-spacedrum13 { background: url('images/13notes.png'); }
-img.keyboard { position:absolute; top: 13%; right: 30%; opacity:0.7}
+img.keyboard { position:absolute; top: 13%; right: 25%; opacity:0.75}
 
 button {
 width: 65px;
@@ -52,7 +52,7 @@ height: 65px;
 border-radius: 20px;
 cursor: pointer;
 position:absolute;
-opacity:0.5;
+opacity:0;
 }
 
 .spacedrum13 button { width: 50px; height: 50px; }
@@ -100,7 +100,7 @@ opacity:0.5;
 	</ul>
 	<h1>spacedrum!</h1>
 	<h2>hover the instrument to play or</h2>
-	<img class="keyboard" src="images/keyboard.png"/>
+	<img class="keyboard" src="images/keyboard6.png"/>
 	<div class="spacedrum spacedrum6">
 		<button id="C4V4"></button>
 		<button id="Bb3V4"></button>
@@ -208,27 +208,51 @@ SpaceDrum = {
 var SpaceDrum6 = $.extend({}, SpaceDrum);
 var SpaceDrum8 = $.extend({}, SpaceDrum);
 var SpaceDrum13 = $.extend({}, SpaceDrum);
-// 65: A, 87: W, 83: S, 88: X, 68: D, 90: Z
 SpaceDrum6.keyBindings = {
-		'87': 'C4V4',
-		'65': 'F4V4',
-		'83': 'G4V4',
-		'68': 'D4V4',
-		'90': 'Bb4V4',
-		'88': 'Bb3V4',
+	'90': 'C4V4',
+	'65': 'F4V4',
+	'68': 'G4V4',
+	'88': 'D4V4',
+	'87': 'Bb4V4',
+	'83': 'Bb3V4',
 }
 SpaceDrum6.path = 'sounds/6notes';
 SpaceDrum6.parent = $('.spacedrum6');
+SpaceDrum8.keyBindings = {
+	'51': 'V4A4',
+	'87': 'V4F4',
+	'69': 'V4G4',
+	'68': 'V4E4',
+	'88': 'V4C4',
+	'90': 'V4B3',
+	'65': 'V4D4',
+	'83': 'V4A3',
+}
 SpaceDrum8.path = 'sounds/8notesDiatoAm';
 SpaceDrum8.parent = $('.spacedrum8');
+SpaceDrum13.keyBindings = {
+		"67":'o1C4',
+		"52":'o2Cd4',
+		"88":'o3D4',
+		"87":'o4Eb4',
+		"70":'o5E4',
+		"90":'o6F4',
+		"51":'o7Fd4',
+		"84":'o8G4',
+		"65":'omaGd4',
+		"68":'o10A4',
+		"69":'o11Bb4',
+		"82":'o12B4',
+		"83":'o13C5',
+}
 SpaceDrum13.path = 'sounds/Chr';
 SpaceDrum13.parent = $('.spacedrum13');
 SpaceDrum6.load();
-SpaceDrum8.load();
-SpaceDrum13.load();
+
 $('.list-spacedrum6').click(function(){
 	SpaceDrum6.load();
 	$('body').animate({opacity: 0}, 'slow', function() {
+		$('img.keyboard').attr('src', 'images/keyboard6.png');
 		$('.spacedrum').hide();
         $(this).
         	css({'background-image': 'url(images/sunset.jpg)'}).
@@ -241,9 +265,10 @@ $('.list-spacedrum6').click(function(){
 $('.list-spacedrum8').click(function(){
 	SpaceDrum8.load();
 	$('body').animate({opacity: 0}, 'slow', function() {
+		$('img.keyboard').attr('src', 'images/keyboard8.png');
 		$('.spacedrum').hide();
         $(this).
-        	css({'background-image': 'url(images/castle.jpg)'}).
+        	css({'background-image': 'url(images/magnaen.jpg)'}).
             animate({opacity: 1});
         $('.spacedrum8').show();
 
@@ -254,6 +279,7 @@ $('.list-spacedrum13').click(function(){
 	SpaceDrum13.load();
 	$('body').animate({opacity: 0}, 'slow', function() {
 		$('.spacedrum').hide();
+		$('img.keyboard').attr('src', 'images/keyboard13.png');
         $(this).
         	css({'background-image': 'url(images/hands.jpg)'}).
             animate({opacity: 1});
