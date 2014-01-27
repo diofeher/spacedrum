@@ -1,10 +1,18 @@
-<style>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Spacedrum!</title>
+	 <!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+    	</script>
+    <![endif]-->
+<style type="text/css">
 body {
-	background:url(images/sunset.jpg) no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+background:url(images/sunset.jpg) no-repeat center center fixed; 
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
 }
 h1, h2 { margin:auto; text-align:center; }
 
@@ -99,52 +107,53 @@ right: 2%;
 top: 45%;
 }
 #song-controls button {
-	opacity:1;
-	display:inline;
-	position:static;
-	border-radius:0;
-	-webkit-border-radius:0;
-	width:40px;
-	height:40px;
+opacity:1;
+display:inline;
+position:static;
+border-radius:0;
+-webkit-border-radius:0;
+width:40px;
+height:40px;
 }
 
 #song-controls .circle {
-	display:block;
-	width:20px;
-	height:20px;
-	background:red;
-	border-radius: 10px;
-	margin:auto;
+display:block;
+width:20px;
+height:20px;
+background:red;
+border-radius: 10px;
+margin:auto;
 }
 
 .recording {
-	-webkit-animation: heartbeat 0.5s linear infinite alternate;
-	animation: heartbeat 0.5s linear infinite alternate;
+-webkit-animation: heartbeat 0.5s linear infinite alternate;
+animation: heartbeat 0.5s linear infinite alternate;
 }
 
 #song-controls .triangle {
-	width: 0; 
-	height: 0; 
-	border-top: 10px solid transparent;
-	border-bottom: 10px solid transparent;
-	display:block;
-	border-left: 10px solid black;
-	margin:auto;
+width: 0; 
+height: 0; 
+border-top: 10px solid transparent;
+border-bottom: 10px solid transparent;
+display:block;
+border-left: 10px solid black;
+margin:auto;
 }
 
 #song-controls textarea {
-	display:block;
-	width: 159px;
+display:block;
+width: 159px;
 height: 100px;
 }
 
 @-webkit-keyframes heartbeat {
-	0% {
-		/*-webkit-transform:rotate(0deg);*/
-		background:black;
-	}
+0% {
+/*-webkit-transform:rotate(0deg);*/
+background:black;
+}
 }
 </style>
+</head>
 
 <body>
 	<h2 class="choose">select instrument</h2>
@@ -409,3 +418,4 @@ $('.list-spacedrum13').click(function(){
   })();
 
 </script>
+</html>
