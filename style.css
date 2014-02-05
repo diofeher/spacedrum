@@ -1,0 +1,145 @@
+body {
+background:url(images/sunset.jpg) no-repeat center center fixed; 
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+}
+h1, h2 { margin:auto; text-align:center; }
+
+h1 {
+color:white;
+text-shadow:#000 2px 2px;
+font-family:Georgia;
+font-size:4em;
+}
+
+h2 {
+color:#fff;
+text-shadow:#666 2px 0 1px;
+}
+
+h2.choose {
+left: 24px;
+position: absolute;
+}
+
+.spacedrum {
+width:300px;
+height:300px;
+margin:120px auto;
+position:relative;
+}
+
+.spacedrum6 { background: url('images/6notes-play.png') }
+.spacedrum8 { background: url('images/8notes-play.png'); width: 315px; height: 315px; display:none; }
+.spacedrum13 { background: url('images/13notes-play.png'); width: 350px;
+height: 350px; display:none; margin:60px auto; }
+
+.select-drum { position:absolute; top:5%; }
+
+.list { width:130px; height:80px; cursor:pointer; list-style: none; margin:10px;}
+
+.list-spacedrum6 { background: url('images/6notes.png'); }
+.list-spacedrum8 { background: url('images/8notes.png') no-repeat; height:90px; }
+.list-spacedrum13 { background: url('images/13notes.png'); }
+img.keyboard { position:absolute; top: 13%; right: 25%; opacity:0.75}
+
+button {
+width: 60px;
+height: 60px;
+border-radius: 25px;
+cursor: pointer;
+position:absolute;
+opacity:0;
+}
+
+.spacedrum13 button { width: 55px; height: 55px; }
+
+.spacedrum13 button { width: 50px; height: 50px; }
+
+/* 6 NOTES */
+#Bb3V4 { top: 37%; left: 42%;}
+#C4V4 { top: 64%; left: 18%;}
+#D4V4 { top: 64%; left: 63%;}
+#F4V4 { top: 23%; left: 11%;}
+#G4V4 { top: 26%; left: 71%;}
+#Bb4V4 { top: 6%; left: 43%;}
+
+/* 8 NOTES */
+#V4A3 {left: 38%; top: 39%;}
+#V4B3 {bottom: 11%; left: 21%;}
+#V4C4 {right: 23%; bottom: 11%;}
+#V4D4 {left: 5%; top: 41%;}
+#V4E4 {right: 5%; top: 40%;}
+#V4F4 {top: 12%; left: 18%;}
+#V4G4 {right: 18%; top: 13%;}
+#V4A4 {top: 6%; left: 40%;}
+
+/* 13 NOTES */
+#o1C4 {right: 23%; bottom: 11%;}
+#o2Cd4 {top: 22%; right: 14%;}
+#o3D4 {right: 49%; bottom: 9%;}
+#o4Eb4 {left: 27%; top: 23%;}
+#o5E4 {right: 5%; bottom: 26%;}
+#o6F4 {top: 63%; left: 20%;}
+#o7Fd4 {right: 38%; top: 13%;}
+#o8G4 {top: 39%; right: 4%;}
+#omaGd4 {top: 43%; left: 17%;}
+#o10A4 {bottom: 25%; right: 35%;}
+#o11Bb4 {top: 34%; left: 50%;}
+#o12B4 {top: 47%; right: 19%;}
+#o13C5 {top: 48%; left: 34%;}
+
+#song-controls {
+opacity:1;
+position:absolute;
+right: 2%;
+top: 45%;
+}
+#song-controls button {
+opacity:1;
+display:inline;
+position:static;
+border-radius:0;
+-webkit-border-radius:0;
+width:40px;
+height:40px;
+}
+
+#song-controls .circle {
+display:block;
+width:20px;
+height:20px;
+background:red;
+border-radius: 10px;
+margin:auto;
+}
+
+.recording {
+-webkit-animation: heartbeat 0.5s linear infinite alternate;
+animation: heartbeat 0.5s linear infinite alternate;
+}
+
+#song-controls .triangle {
+width: 0; 
+height: 0; 
+border-top: 10px solid transparent;
+border-bottom: 10px solid transparent;
+display:block;
+border-left: 10px solid black;
+margin:auto;
+}
+
+#song-controls textarea {
+display:block;
+width: 159px;
+height: 100px;
+}
+
+@-webkit-keyframes heartbeat {
+0% {
+/*-webkit-transform:rotate(0deg);*/
+background:black;
+}
+}
