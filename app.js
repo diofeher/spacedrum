@@ -2,7 +2,6 @@ AudioContext = window.AudioContext || window.webkitAudioContext;
 SpaceDrum = {
 	audioContext: new AudioContext(),
 	sounds: {},
-	parent: null,
 	log: [],
 	recording: false,
 	start_time: null,
@@ -114,7 +113,10 @@ var SpaceDrum6 = $.extend({
 		'87': 'Bb4V4',
 		'83': 'Bb3V4',
 	},
-	path: 'sounds/6notes'
+	parent: $('.spacedrum6'),
+	path: 'sounds/6notes',
+	keyboard: 'images/keyboard6.png',
+	background: 'images/sunset.jpg'
 }, SpaceDrum);
 var SpaceDrum8 = $.extend({
 	keyBindings: {
@@ -127,7 +129,10 @@ var SpaceDrum8 = $.extend({
 		'65': 'V4D4',
 		'83': 'V4A3',
 	},
-	path: 'sounds/8notesDiatoAm'
+	parent: $('.spacedrum8'),
+	path: 'sounds/8notesDiatoAm',
+	keyboard: 'images/keyboard8.png',
+	background: 'images/magnaen.jpg'
 }, SpaceDrum);
 var SpaceDrum13 = $.extend({
 	keyBindings: {
@@ -145,50 +150,26 @@ var SpaceDrum13 = $.extend({
 		"82":'o12B4',
 		"83":'o13C5',
 	},
-	path: 'sounds/Chr'
+	parent: $('.spacedrum13'),
+	path: 'sounds/Chr',
+	keyboard: 'images/keyboard13.png',
+	background: 'images/hands.jpg'
 }, SpaceDrum);
 
-SpaceDrum6.parent = $('.spacedrum6');
-SpaceDrum8.parent = $('.spacedrum8');
-SpaceDrum13.parent = $('.spacedrum13');
 SpaceDrum6.load();
 
-$('.list-spacedrum6').click(function(){
-	SpaceDrum6.load();
+$('.list').click(function(){
+	var name = $(this).attr('id');
+	    obj = window[name];
+
+	obj.load();
 	$('body').animate({opacity: 0}, 'slow', function() {
-		$('img.keyboard').attr('src', 'images/keyboard6.png');
+		$('img.keyboard').attr('src', obj.keyboard);
 		$('.spacedrum').hide();
         $(this).
-        	css({'background-image': 'url(images/sunset.jpg)'}).
+        	css({'background-image': 'url('+obj.background+')'}).
             animate({opacity: 1});
-        $('.spacedrum6').show();
-        
-    });
-});
-
-$('.list-spacedrum8').click(function(){
-	SpaceDrum8.load();
-	$('body').animate({opacity: 0}, 'slow', function() {
-		$('img.keyboard').attr('src', 'images/keyboard8.png');
-		$('.spacedrum').hide();
-        $(this).
-        	css({'background-image': 'url(images/magnaen.jpg)'}).
-            animate({opacity: 1});
-        $('.spacedrum8').show();
-
-    });
-});
-
-$('.list-spacedrum13').click(function(){
-	SpaceDrum13.load();
-	$('body').animate({opacity: 0}, 'slow', function() {
-		$('.spacedrum').hide();
-		$('img.keyboard').attr('src', 'images/keyboard13.png');
-        $(this).
-        	css({'background-image': 'url(images/hands.jpg)'}).
-            animate({opacity: 1});
-        $('.spacedrum13').show();
-        
+        $('.'+name.toLowerCase()).show();   
     });
 });
 
