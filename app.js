@@ -26,7 +26,6 @@ SpaceDrum = {
 				else {
 					that.log = [];
 					that.recording = true;
-					console.log($('.circle'));
 					$('.circle').addClass('recording');
 					that.start_time = Date.now();
 				}
@@ -35,7 +34,6 @@ SpaceDrum = {
 		$('#play').click(function(){
 			var log = $('#log').val();
 			var obj = new Function('return '+log)();
-			var dfd = new $.Deferred();
 			for (note in obj) {
 				(function () {
 					var sound = obj[note];
@@ -53,38 +51,25 @@ SpaceDrum = {
 		}
 	},
 	loadSound: function (audioContext, key, url) {
-	    var request = new XMLHttpRequest(),
-	    	dfd = $.Deferred();
+	    var request = new XMLHttpRequest();
 	    request.open("get", url);
 	    request.responseType = "arraybuffer";
 	    request.onload = (function () {
 	      this.audioContext.decodeAudioData(request.response, (function (buffer) {
 	        this.sounds[key] = buffer;
-	        dfd.resolve();
 	      }).bind(this));
 	    }).bind(this);
 	    request.send();
-	    return dfd;
 	},
 	loadSounds: function (audioContext) {
-	    var dfds = [],
-	    	that = this,
-	    	masterDfd = $.Deferred();
+	    var that = this;
 	    for (var key in this.notes) {
 	    	var note = this.notes[key];
-	        dfds.push(
 	       	  this.loadSound(audioContext,
 			     note,
 			     that.path+note+'.mp3'
-		      )
-		    );
+		      );
 	    }
-
-	    $.when.apply($, dfds).then(function () {
-	      masterDfd.resolve();
-	    });
-
-	    return masterDfd;
 	},
 	playNote: function(sound) {
 		var element = $('#'+sound);
@@ -175,5 +160,6 @@ $('.list').click(function(){
 
 // $.each($('button'), function(){
 // 	var $this = $(this);
+// 	console.log($this);
 // 	$this.text( $this.attr('id') );
 // })
