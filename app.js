@@ -40,7 +40,7 @@ SpaceDrum = {
 					setTimeout(function(){
 						that.playNote(sound[0]);
 					}, sound[1]);
-				}).call();
+				})();
 			};
 		})
 		document.onkeydown = function(e)  {
